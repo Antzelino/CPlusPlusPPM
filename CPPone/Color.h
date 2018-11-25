@@ -21,7 +21,9 @@ namespace imaging
 	typedef float component_t;
 
 	#define ZERO 0.0f // Defined here as an abstract constant to match the type of component_t
-    #define CLAMP_POSITIVE(val) ((val)>ZERO?(val):ZERO)
+	#define ONE  1.0f // Same as above
+    #define CLAMP_POSITIVE(val) ((val)<ZERO?ZERO:(val)) // if val is less than zero, return zero
+	#define CLAMP_MAX_ONE(val) ((val)>ONE?ONE:(val)) // if val is more than one, return one
 
 
 	/*! Represents a triplet of Red, Green, Blue (RGB) values. 
@@ -60,9 +62,10 @@ namespace imaging
 		Color operator + (Color & right) const
 		{
 			Color res;
-			res.r = r + right.r;
-			res.g = g + right.g;
-			res.b = b + right.b;
+			res.r = CLAMP_MAX_ONE(r + right.r);
+			res.g = CLAMP_MAX_ONE(g + right.g);
+			res.b = CLAMP_MAX_ONE(b + right.b);
+
 			return res;
 		}
 

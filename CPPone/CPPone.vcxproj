@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{92382A05-9835-4F43-854B-2248C9C65233}</ProjectGuid>
     <RootNamespace>CPPone</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>neg</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -128,6 +128,12 @@
     <ClInclude Include="ppm.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Image01.ppm" />
+    <None Include="..\Image02.ppm" />
+    <None Include="..\Image03.ppm" />
+    <None Include="..\Image04.ppm" />
+    <None Include="..\Image05.ppm" />
+    <None Include="..\Image06.ppm" />
     <None Include="Image01.ppm" />
     <None Include="Image02.ppm" />
     <None Include="Image03.ppm" />
