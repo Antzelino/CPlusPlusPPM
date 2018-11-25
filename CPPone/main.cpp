@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Image.h"
+#include "Commons.h"
 #include "ppm.h"
 #include "Color.h"
 
@@ -11,6 +12,7 @@
 
 using namespace std;
 using namespace imaging;
+using namespace commons;
 
 
 /*
@@ -97,10 +99,18 @@ int main()
 	// 2) Υλοποίηση των μεθόδων της κλάσσης Image. H load να χρησιμοποιεί την readPPM, και η save την writePPM από την ppm.lib
 	// 3) Υλοποίηση της main λειτουργικότητας στο 1, με χρήση της ppm.lib.
 	
-	int i;
-	cout << "Please enter an integer value: ";
+	string i;
+	Commons cm;
+	cout << "Please enter the full name (with extension) of the ppm image: ";
 	cin >> i;
-	cout << "The value you entered is " << i;
-	cout << " and its double is " << i * 2 << ".\n";
+	cout << "File entered: " << i << "\n";
+	///*
+	int * w = NULL;
+	int * h = NULL;
+	//std::string s = std::to_string(i);
+	ReadPPM(cm.stringToChar(i), w, h);
+	//*/
+
+	//cout << " and its double is " << i * 2 << "\n";
 	return 0;
 }

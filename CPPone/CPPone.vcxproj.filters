@@ -21,6 +21,12 @@
     <ClCompile Include="Image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Commons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ppm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h">
@@ -30,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ppm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Commons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

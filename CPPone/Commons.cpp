@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "Commons.h"
 
 using namespace std;
@@ -8,7 +10,7 @@ namespace commons {
 		return atoi(data.c_str());
 	}
 
-	vector<string> Commons::split(const char *str, char c = ' ') {
+	vector<string> Commons::split(const char *str, char c) {
 		vector<string> res;
 
 		do {

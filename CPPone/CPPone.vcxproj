@@ -116,11 +116,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Commons.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ppm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Commons.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="ppm.h" />
   </ItemGroup>

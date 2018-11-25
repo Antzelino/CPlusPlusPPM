@@ -5,6 +5,8 @@
 #include <iostream>
 #include <istream>
 
+using namespace std;
+
 namespace commons {
 
 	class Commons {

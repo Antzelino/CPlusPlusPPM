@@ -78,11 +78,17 @@ namespace imaging {
 		return temp;
 	}
 
-	bool Image::load(const std::string & filename, const std::string & format)
+	bool Image::load(const string & filename, const string & format)
 	{
+		if (format != "ppm") {
+			cerr << "Only .ppm format extension is supported" << endl;
+			return false;
+		}
+		
 		ifstream file(filename, ios_base::binary);
 		if (!file) {
-			return NULL;
+			cerr << "P3 format is not supported." << endl;
+			return false;
 		}
 
 		string text;
