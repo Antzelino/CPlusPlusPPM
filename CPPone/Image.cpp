@@ -144,6 +144,10 @@ namespace imaging {
 
 		//Image *image = new Image(width, height, (component_t*)fdata);
 		//delete[] data;
+
+		//Print Image dimensions
+		cout << "Image dimensions are : " << width << " X " << height << "\n";
+
 		return true;
 	}
 }

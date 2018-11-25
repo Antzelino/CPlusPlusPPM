@@ -15,69 +15,6 @@ using namespace imaging;
 using namespace commons;
 
 
-/*
-Image* ReadPPM(const char* filename) {
-	ifstream file(filename, ios_base::binary);
-	if (!file) {
-		return NULL;
-	}
-
-	string text;
-	string line;
-	unsigned short width, height;
-	bool correcttype = false;
-	vector<string> list;
-	while (getline(file, line)) {
-		text.append(line);
-		text.append(" ");
-		unsigned position = line.find("255");
-		if (position != string::npos) {
-			break;
-		}
-	}
-
-	char* charText = stringToChar(text);
-	list = split(charText, ' ');
-	if (list[0] == "P3") {
-		cerr << "P3 format is not supported." << endl;
-		return NULL;
-	}
-	if (list[1] == "") {
-		cerr << "The width of the image is not specified." << endl;
-		return NULL;
-	}
-	width = mystoi(list[1]);
-	if (list[2] == "") {
-		cerr << "The height of the image is not specified." << endl;
-		return NULL;
-	}
-	height = mystoi(list[2]);
-	if (list[3] == "") {
-		cerr << "The maximum value is not specified." << endl;
-		return NULL;
-	}
-	if (mystoi(list[3]) > 255) {
-		cerr << "Maximum value is over 255!" << endl;
-		return NULL;
-	}
-
-	char* data = new char[width * height * 3];
-	float* fdata = new float[width * height * 3];
-	file.read(data, width * height * 3 * sizeof(char));
-
-	for (int i = 0; i < width * height * 3; i++) {
-		char t = data[i];
-		unsigned char tt = (unsigned char)t;
-		float pp = tt / 255.0f;
-		fdata[i] = pp;
-	}
-
-	Image *image = new Image(width, height, (component_t*)fdata);
-	delete[] data;
-	return image;
-}
-*/
-
 int main()
 {
 	
@@ -104,13 +41,9 @@ int main()
 	cout << "Please enter the full name (with extension) of the ppm image: ";
 	cin >> i;
 	cout << "File entered: " << i << "\n";
-	///*
 	int * w = NULL;
 	int * h = NULL;
-	//std::string s = std::to_string(i);
 	ReadPPM(cm.stringToChar(i), w, h);
-	//*/
 
-	//cout << " and its double is " << i * 2 << "\n";
 	return 0;
 }
