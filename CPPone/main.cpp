@@ -15,9 +15,8 @@ using namespace imaging;
 using namespace commons;
 
 
-int main()
-{
-	
+int main(int argc, char* argv[]) {
+
 	// 0) DONE Το όνομα του εκτελέσιμου πρέπει να είναι neg.exe 
 	//     το όνομα της εικόνας προς φόρτωση δίνεται ως όρισμα, αλλιώς ζητείται κατά την εκτέλεση
 	// 1a) readPPM --> ανοίγει την εικόνα και και την αποθηκεύει σε ένα instance της κλάσης Image
@@ -36,14 +35,31 @@ int main()
 	// 2) Υλοποίηση των μεθόδων της κλάσσης Image. H load να χρησιμοποιεί την readPPM, και η save την writePPM από την ppm.lib
 	// 3) Υλοποίηση της main λειτουργικότητας στο 1, με χρήση της ppm.lib.
 	
-	string i;
+	string file;
+	if (argc != 2) {
+		cout << "Please enter the full name (with extension) of the ppm image: ";
+		//getline(cin, file);
+		cin >> file;
+	}
+	else {
+		file = argv[1];
+	}
+
 	Commons cm;
-	cout << "Please enter the full name (with extension) of the ppm image: ";
-	cin >> i;
-	cout << "File entered: " << i << "\n";
+	cout << "File: " << file << "\n";
 	int * w = NULL;
 	int * h = NULL;
-	ReadPPM(cm.stringToChar(i), w, h);
+	const char * filenameInChar = cm.stringToChar(file);
+	vector<string> filenameSplitted = cm.split(filenameInChar, '.');
+	float * imageData = ReadPPM(filenameInChar, w, h);
 
+	/*
+
+	//Save negative
+	bool saver = WritePPM(imageData, 500, 200, cm.stringToChar(filenameSplitted[0])+'_neg'+'.ppm');
+	if (saver) {
+		cout << "Please enter the full name (with extension) of the ppm image: ";
+	}
+	*/
 	return 0;
 }

@@ -85,7 +85,8 @@ namespace imaging {
 			return false;
 		}
 		
-		ifstream file(filename, ios_base::binary);
+		string fullFilename = filename + '.' + format;
+		ifstream file(fullFilename, ios_base::binary);
 		if (!file) {
 			cerr << "P3 format is not supported." << endl;
 			return false;
@@ -93,7 +94,6 @@ namespace imaging {
 
 		string text;
 		string line;
-		unsigned short width, height;
 		bool correcttype = false;
 		vector<string> list;
 		while (getline(file, line)) {
@@ -116,12 +116,12 @@ namespace imaging {
 			cerr << "The width of the image is not specified." << endl;
 			return false;
 		}
-		width = cm.mystoi(list[1]);
+		(*this).width = cm.mystoi(list[1]);
 		if (list[2] == "") {
 			cerr << "The height of the image is not specified." << endl;
 			return false;
 		}
-		height = cm.mystoi(list[2]);
+		(*this).height = cm.mystoi(list[2]);
 		if (list[3] == "") {
 			cerr << "The maximum value is not specified." << endl;
 			return false;
@@ -131,23 +131,30 @@ namespace imaging {
 			return false;
 		}
 
-		char* data = new char[width * height * 3];
-		float* fdata = new float[width * height * 3];
-		file.read(data, width * height * 3 * sizeof(char));
+		char* data = new char[(*this).width * (*this).height * 3];
+		float* fdata = new float[(*this).width * (*this).height * 3];
+		file.read(data, (*this).width * (*this).height * 3 * sizeof(char));
 
-		for (int i = 0; i < width * height * 3; i++) {
+		for (int i = 0; i < (*this).width * (*this).height * 3; i++) {
 			char t = data[i];
 			unsigned char tt = (unsigned char)t;
 			float pp = tt / 255.0f;
 			fdata[i] = pp;
 		}
 
+		(*this).buffer = (Color*)fdata;
 		//Image *image = new Image(width, height, (component_t*)fdata);
-		//delete[] data;
+		delete[] data;
 
-		//Print Image dimensions
-		cout << "Image dimensions are : " << width << " X " << height << "\n";
+		return true;
+	}
 
+	bool Image::save(const std::string & filename, const std::string & format)
+	{
+		if (format != "ppm") {
+			cerr << "Only .ppm format extension is supported" << endl;
+			return false;
+		}
 		return true;
 	}
 }

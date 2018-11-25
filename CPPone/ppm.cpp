@@ -13,14 +13,11 @@ namespace imaging {
 		
 		//-----Get filename and file extension from input
 		Commons cm;
-		vector<string> fileInput;
-		fileInput = cm.split(filename, '.');
-		//filename
-		cout << fileInput[0] << "\n";
-		//file extension
-		cout << fileInput[1] << "\n";
+		vector<string> fileInput = cm.split(filename, '.');
+		cout << "File name: " << fileInput[0] << "\n";
+		cout << "file format: " << fileInput[1] << "\n";
 
-		//-----load them in the load function
+		//-----load with the load function
 		Image im;
 		bool loader = im.load(fileInput[0], fileInput[1]);
 
@@ -28,8 +25,18 @@ namespace imaging {
 		if (!loader) {
 			return nullptr;
 		}
+		else {
+			//Print Image dimensions
+			cout << "Image dimensions are: " << im.getWidth() << " X " << im.getHeight() << "\n";
+		}
 
-
+		//πρέπει να επιστρέφει float *
 		return nullptr;
+	}
+
+	bool WritePPM(const float * data, int w, int h, const char * filename)
+	{
+
+		return false;
 	}
 }
