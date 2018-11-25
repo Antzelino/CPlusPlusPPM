@@ -27,4 +27,10 @@ namespace commons {
 		strcpy(charstr, str.c_str());
 		return charstr;
 	}
+
+	bool Commons::is_number(const string& s) {
+		std::string::const_iterator it = s.begin();
+		while (it != s.end() && isdigit(*it)) ++it;
+		return !s.empty() && it == s.end();
+	}
 }

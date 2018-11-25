@@ -38,7 +38,6 @@ int main(int argc, char* argv[]) {
 	string file;
 	if (argc != 2) {
 		cout << "Please enter the full name (with extension) of the ppm image: ";
-		//getline(cin, file);
 		cin >> file;
 	}
 	else {
@@ -46,12 +45,15 @@ int main(int argc, char* argv[]) {
 	}
 
 	Commons cm;
-	cout << "File: " << file << "\n";
-	int * w = NULL;
-	int * h = NULL;
+	Image im;
+	//cout << "File: " << file << "\n";
 	const char * filenameInChar = cm.stringToChar(file);
-	vector<string> filenameSplitted = cm.split(filenameInChar, '.');
-	float * imageData = ReadPPM(filenameInChar, w, h);
+	const vector<string> filenameSplitted = cm.split(filenameInChar, '.');
+	if (!im.load(filenameSplitted[0], filenameSplitted[1]))
+		return 1;
+
+
+
 
 	/*
 	//Save negative

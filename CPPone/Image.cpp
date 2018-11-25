@@ -1,4 +1,5 @@
 #include "Image.h"
+#include "ppm.h"
 #include "Commons.h"
 
 using namespace std;
@@ -84,68 +85,19 @@ namespace imaging {
 			cerr << "Only .ppm format extension is supported" << endl;
 			return false;
 		}
+
 		
 		string fullFilename = filename + '.' + format;
-		ifstream file(fullFilename, ios_base::binary);
-		if (!file) {
-			cerr << "P3 format is not supported." << endl;
-			return false;
-		}
 
-		string text;
-		string line;
-		bool correcttype = false;
-		vector<string> list;
-		while (getline(file, line)) {
-			text.append(line);
-			text.append(" ");
-			unsigned position = line.find("255");
-			if (position != string::npos) {
-				break;
-			}
-		}
+		int w, h; // width and height
+		float* data = ReadPPM(fullFilename.c_str(), &w, &h);
+		if (data == nullptr)
+			return false;
 
-		Commons cm;
-		char* charText = cm.stringToChar(text);
-		list = cm.split(charText, ' ');
-		if (list[0] == "P3") {
-			cerr << "P3 format is not supported." << endl;
-			return false;
-		}
-		if (list[1] == "") {
-			cerr << "The width of the image is not specified." << endl;
-			return false;
-		}
-		(*this).width = cm.mystoi(list[1]);
-		if (list[2] == "") {
-			cerr << "The height of the image is not specified." << endl;
-			return false;
-		}
-		(*this).height = cm.mystoi(list[2]);
-		if (list[3] == "") {
-			cerr << "The maximum value is not specified." << endl;
-			return false;
-		}
-		if (cm.mystoi(list[3]) > 255) {
-			cerr << "Maximum value is over 255!" << endl;
-			return false;
-		}
+		cout << "Image dimensions are: " << w << " X " << h << endl;
 
-		char* data = new char[(*this).width * (*this).height * 3];
-		float* fdata = new float[(*this).width * (*this).height * 3];
-		file.read(data, (*this).width * (*this).height * 3 * sizeof(char));
 
-		for (int i = 0; i < (*this).width * (*this).height * 3; i++) {
-			char t = data[i];
-			unsigned char tt = (unsigned char)t;
-			float pp = tt / 255.0f;
-			fdata[i] = pp;
-		}
-
-		(*this).buffer = (Color*)fdata;
-		//Image *image = new Image(width, height, (component_t*)fdata);
 		delete[] data;
-
 		return true;
 	}
 

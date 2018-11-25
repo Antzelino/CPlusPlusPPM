@@ -16,5 +16,7 @@ namespace commons {
 			vector<string> split(const char *str, char c = ' ');
 
 			char* stringToChar(string &str);
+
+			bool is_number(const string& s);
 	};
 }

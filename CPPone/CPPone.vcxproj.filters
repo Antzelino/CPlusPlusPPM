@@ -61,23 +61,5 @@
     <None Include="Image06.ppm">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\Image01.ppm">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\Image02.ppm">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\Image03.ppm">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\Image04.ppm">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\Image05.ppm">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\Image06.ppm">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>
