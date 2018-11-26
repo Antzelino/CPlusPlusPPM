@@ -1,10 +1,4 @@
-﻿#include "ppm.h"
-#include "Commons.h"
-#include "Image.h"
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
-#include <iostream>
+#include "stdafx.h"
 
 using namespace commons;
 
@@ -24,7 +18,6 @@ namespace imaging {
 		unsigned int count_words = 0;
 		bool reading_word = true;
 
-		cout << "From header + a little:" << endl;
 		if (isspace(c = file.get())) // check if first character is whitespace
 			while (isspace(c))
 				file.get(c); // skip all leading whitespace
@@ -48,7 +41,7 @@ namespace imaging {
 				file.get(c);
 				continue;
 			}
-			reading_word = true; 
+			reading_word = true;
 
 			text += c; // so we simply keep adding it to the text
 			file.get(c);
@@ -62,7 +55,7 @@ namespace imaging {
 		Commons cm;
 		char* charText = cm.stringToChar(text);
 		list = cm.split(charText, ' ');
-		
+
 		if (list[0] != "P6") {
 			cerr << "The only supported format is P6." << endl;
 			return nullptr;
@@ -119,7 +112,7 @@ namespace imaging {
 			return false;
 		}
 		const string headers = "P6 " + to_string(w) + ' ' + to_string(h) + ' ' + to_string(255) + '\n'; // set custom headers
-		
+
 		file.write((char*)headers.c_str(), headers.length());
 		char* char_data = new char[3 * w * h];
 		for (int i = 0; i < 3 * w * h; i++) {

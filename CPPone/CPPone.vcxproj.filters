@@ -24,9 +24,6 @@
     <ClCompile Include="Commons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ppm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h">
