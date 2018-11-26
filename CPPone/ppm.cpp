@@ -12,36 +12,12 @@ namespace imaging {
 
 	// don't forget to delete[] the returned value when not needed anymore
 	float * ReadPPM(const char * filename, int * w, int * h) {
-		
-		//-----Get filename and file extension from input
-		//Commons cm;
-		//vector<string> fileInput = cm.split(filename, '.');
-		//cout << "File name: " << fileInput[0] << "\n";
-		//cout << "file format: " << fileInput[1] << "\n";
-
-		//cout << "Image dimensions are: " << im.getWidth() << " X " << im.getHeight() << "\n";
-
-
 		ifstream file;
 		file.open(filename, ios::in | ios::binary);
 		if (!file.is_open()) {
 			cerr << "Could not open file: " << filename << endl;
 			return nullptr;
 		}
-/*
-		string text;
-		string line;
-		vector<string> list;
-
-		while (getline(file, line)) {
-			text.append(line);
-			text.append(" ");
-			unsigned int position = line.find("255");
-			if (position != string::npos) {
-				break;
-			}
-		}		
-*/
 
 		string text = "";
 		char c;
@@ -131,7 +107,29 @@ namespace imaging {
 
 	bool WritePPM(const float * data, int w, int h, const char * filename)
 	{
+		if (data == nullptr) {
+			cerr << "Could not find data to write to file" << endl;
+			return false;
+		}
 
-		return false;
+		ofstream file;
+		file.open(filename, ios::out | ios::trunc | ios::binary); // if file already exists, truncate and write
+		if (!file.is_open()) {
+			cerr << "Could not open file: " << filename << endl;
+			return false;
+		}
+		const string headers = "P6 " + to_string(w) + ' ' + to_string(h) + ' ' + to_string(255) + '\n'; // set custom headers
+		
+		file.write((char*)headers.c_str(), headers.length());
+		char* char_data = new char[3 * w * h];
+		for (int i = 0; i < 3 * w * h; i++) {
+			char_data[i] = (char)roundf(255.0f * data[i]);
+		}
+
+		file.write(char_data, 3 * w * h);
+		delete[] char_data;
+
+		file.close();
+		return true;
 	}
 }

@@ -51,8 +51,8 @@ namespace imaging {
 	}
 
 	Image::Image() {
-		this->width = ZERO;
-		this->height = ZERO;
+		this->width = 0;
+		this->height = 0;
 		this->buffer = nullptr;
 	}
 
@@ -102,7 +102,7 @@ namespace imaging {
 
 	bool Image::load(const string & filename, const string & format) {
 		if (format != "ppm") {
-			cerr << "Only .ppm format extension is supported" << endl;
+			cerr << "Only .ppm format extension is supported." << endl;
 			return false;
 		}
 		
@@ -115,11 +115,11 @@ namespace imaging {
 
 		cout << "Image dimensions are: " << w << " X " << h << endl;
 
-		Color* pixels = new Color[w*h];
-		for (size_t j = 0; j < w*h; j++) {
-			pixels[j][RED] = data[(3 * j)+RED];
-			pixels[j][GRN] = data[(3 * j)+GRN];
-			pixels[j][BLU] = data[(3 * j)+BLU];
+		Color* pixels = new Color[w * h];
+		for (int i = 0; i < (w * h); i++) {
+			pixels[i][RED] = data[(3 * i)+RED];
+			pixels[i][GRN] = data[(3 * i)+GRN];
+			pixels[i][BLU] = data[(3 * i)+BLU];
 		}
 		if (this->buffer != nullptr)
 			delete[] this->buffer;
@@ -134,10 +134,22 @@ namespace imaging {
 
 	bool Image::save(const std::string & filename, const std::string & format) {
 		if (format != "ppm") {
-			cerr << "Only .ppm format extension is supported" << endl;
+			cerr << "Only .ppm format extension is supported." << endl;
 			return false;
 		}
-		return true;
+
+		if (this->buffer == nullptr || this->height == 0 || this->width == 0)
+			return false;
+
+		const string completeFilename = filename + "." + format;
+		float* data = new float[3 * this->width * this->height];
+		for (size_t i = 0; i < (this->width) * (this->height); i++) {
+			data[(i * 3) + RED] = this->buffer[i][RED];
+			data[(i * 3) + GRN] = this->buffer[i][GRN];
+			data[(i * 3) + BLU] = this->buffer[i][BLU];
+		}
+
+		return WritePPM(data, this->width, this->height, completeFilename.c_str());
 	}
 }
 

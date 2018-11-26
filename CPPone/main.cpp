@@ -46,21 +46,21 @@ int main(int argc, char* argv[]) {
 
 	Commons cm;
 	Image im;
-	//cout << "File: " << file << "\n";
 	const char * filenameInChar = cm.stringToChar(file);
 	const vector<string> filenameSplitted = cm.split(filenameInChar, '.');
-	if (!im.load(filenameSplitted[0], filenameSplitted[1]))
+	if (!im.load(filenameSplitted[0], filenameSplitted[1])) // load
 		return 1;
 
+	Color* negative_colors = new Color[im.getWidth() * im.getHeight()];
+	Color white(ONE, ONE, ONE);
+	for (size_t i = 0; i < im.getWidth() * im.getHeight(); i++)
+		negative_colors[i] = white - im.getRawDataPtr()[i]; // calculate negative image
 
+	Image negative_image(im.getWidth(), im.getHeight(), negative_colors);
+	delete[] negative_colors; // constructor only copies the array
 
+	if (!negative_image.save(filenameSplitted[0] + "_neg", filenameSplitted[1])) // save
+		return 1;
 
-	/*
-	//Save negative
-	bool saver = WritePPM(imageData, 500, 200, cm.stringToChar(filenameSplitted[0])+'_neg'+'.ppm');
-	if (saver) {
-		cout << "Please enter the full name (with extension) of the ppm image: ";
-	}
-	*/
 	return 0;
 }
