@@ -2,13 +2,17 @@
 #include "ppm.h"
 #include "Commons.h"
 
+#define RED 0
+#define GRN 1
+#define BLU 2
+
+
 using namespace std;
 using namespace commons;
 
 namespace imaging {
 
-	Color * Image::getRawDataPtr()
-	{
+	Color * Image::getRawDataPtr() {
 		return buffer;
 	}
 
@@ -40,52 +44,67 @@ namespace imaging {
 	}
 
 	void Image::setData(const Color* & data_ptr) {
-		memcpy(buffer, data_ptr, getWidth() * getHeight() * 3 * sizeof(Color));
-	}
+		if (this->buffer == nullptr || this->width == 0 || this->height == 0) // just like Image.h says, exit immediately in this case
+			return;
 
-	Image::Image(unsigned int width, unsigned int height) {
-		(*this).width = ZERO;
-		(*this).height = ZERO;
-		(*this).buffer = nullptr;
-	}
-
-	Image::Image(unsigned int width, unsigned int height, const Color * data_ptr) {
-		(*this).width = width;
-		(*this).height = height;
-		(*this).buffer = new Color[3 * width * height];
-		(*this).setData(data_ptr);
+		memcpy(this->buffer, data_ptr, getWidth() * getHeight() * sizeof(Color));
 	}
 
 	Image::Image() {
-		(*this).width = width;
-		(*this).height = height;
-		(*this).buffer = new Color[3 * width * height];
+		this->width = ZERO;
+		this->height = ZERO;
+		this->buffer = nullptr;
 	}
 
-	Image::Image(const Image &src) {
-		(*this).width = src.getWidth();
-		(*this).height = src.getHeight();
-		(*this).buffer = new Color[3 * width * height];
-		(*this).buffer = src.buffer;
+	Image::Image(unsigned int width, unsigned int height) {
+		this->width = width;
+		this->height = height;
+		this->buffer = nullptr;
+	}
+
+	Image::Image(unsigned int width, unsigned int height, const Color * data_ptr) {
+		this->width = width;
+		this->height = height;
+		this->buffer = new Color[width * height];
+		this->setData(data_ptr); // copies the array
+	}
+
+	Image::Image(const Image &src) { // deep copy
+		this->width = src.getWidth();
+		this->height= src.getHeight();
+		if (this->buffer != nullptr)
+			delete[] this->buffer;
+
+		this->buffer = new Color[this->width * this->height];
+		const Color* tmp = src.buffer;
+		this->setData(tmp); // copies the array
 	}
 
 	Image::~Image() {
-		delete[] buffer;
+		if (buffer != nullptr)
+			delete[] buffer;
 	}
 
-	Image & Image::operator=(const Image & right)
-	{
-		Image temp(right);
-		return temp;
+	Image & Image::operator=(const Image & right) { // deep copy
+		if (this != (&right)) { // protect against invalid self-assignment
+			this->width = right.getWidth();
+			this->height = right.getHeight();
+			if (this->buffer != nullptr)
+				delete[] this->buffer;
+
+			this->buffer = new Color[this->width * this->height];
+			const Color* tmp = right.buffer;
+			this->setData(tmp);
+		}
+
+		return (*this);
 	}
 
-	bool Image::load(const string & filename, const string & format)
-	{
+	bool Image::load(const string & filename, const string & format) {
 		if (format != "ppm") {
 			cerr << "Only .ppm format extension is supported" << endl;
 			return false;
 		}
-
 		
 		string fullFilename = filename + '.' + format;
 
@@ -96,13 +115,24 @@ namespace imaging {
 
 		cout << "Image dimensions are: " << w << " X " << h << endl;
 
+		Color* pixels = new Color[w*h];
+		for (size_t j = 0; j < w*h; j++) {
+			pixels[j][RED] = data[(3 * j)+RED];
+			pixels[j][GRN] = data[(3 * j)+GRN];
+			pixels[j][BLU] = data[(3 * j)+BLU];
+		}
+		if (this->buffer != nullptr)
+			delete[] this->buffer;
+
+		this->width = w;
+		this->height = h;
+		this->buffer = pixels;
 
 		delete[] data;
 		return true;
 	}
 
-	bool Image::save(const std::string & filename, const std::string & format)
-	{
+	bool Image::save(const std::string & filename, const std::string & format) {
 		if (format != "ppm") {
 			cerr << "Only .ppm format extension is supported" << endl;
 			return false;
